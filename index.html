@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+ <meta charset="UTF-8"> 
+<html>
+<head>
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link href="http://fonts.googleapis.com/css?family=Lobster">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!--<link rel="stylesheet" type="text/css" href="mystyle.css">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+	<title>Pomodoro Clock</title>
+
+	<style type="text/css">
+		body {
+			text-align:center;
+			background-color: black;
+			
+		}
+		
+		h1 {
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			font-size:80px;
+			color:white;
+		}
+		
+		#set-well {
+			background-color: black;
+			color:white;
+			font-size:40px;
+			border: none !important
+		}
+		
+		.btn-circle.btn-lg {
+  		width: 400px;
+  		height: 400px;
+  		padding: 10px 16px;
+  		font-size:80px;
+  		line-height: 1.33;
+  		border-radius: 200px;
+	}
+	</style>
+	
+</head>
+<body>
+	
+<h1>Taking Care of Business</h1>
+
+<div class="well" id="set-well">
+  <div class="row">
+    <div class="well col-xs-6" id="set-well">
+    	<p1 class="output">Break time:</p1>
+    	<button class="btn btn-info btn-sm" onclick="breakTime('+');">+</button>
+    	<p1 class="output" id="break_time"></p1><p1> minutes</p1>
+    	<button class="btn btn-info btn-sm" onclick="breakTime('-');">-</button>
+    </div>
+    
+    <div class="well col-xs-6" id="set-well">
+    	<p1>Session Time:</p1>
+    	 <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
+    	<p1 class="output" id="set_time"></p1><p1> minutes</p1>
+    	<button class="btn btn-info btn-sm" onclick="setTime('-');">-</button>
+
+    </div>
+  </div>
+	
+	<div id="timer">
+
+  		<button class="btn btn-info btn-circle btn-lg output" id="cdtimer" onclick="startTimer(setT);">START</button>
+
+		 <audio autoplay>
+  			<source src="horse.ogg" type="audio/ogg">
+  			<source src="horse.mp3" type="audio/mpeg">
+			</audio> 
+	</div>
+	
+</div>
+</body>
+		
+<script type="text/javascript">
+	 breakT = 5;
+	 break_time.innerHTML = breakT;
+	 setT = 25;
+	 set_time.innerHTML = setT;
+	 //cdtimer.innerHTML =setT+':00';
+	
+	function breakTime(change){
+		if(change==='-'){
+			breakT = breakT-1;
+		}
+		else{
+			breakT = breakT+1;
+		}
+		break_time.innerHTML = breakT;
+	}
+	
+	function setTime(change) {
+				if(change==='-'){
+			setT = setT-1;
+		}
+		else{
+			setT = setT+1;
+		}
+		set_time.innerHTML = setT;
+		cdtimer.innerHTML = setT+':00';
+		//cdtimer = setT
+		console.log(setT)
+		return setT
+	}
+
+function startTimer(setT) {
+	  minutes = setT;
+    var seconds = 00; 
+	cdtimer.innerHTML =setT+':00';
+    cdtime = setInterval(function() {
+        var timer = "stuff";
+        if(seconds == 0) {
+            if(minutes == 0) {
+                alert(timer.innerHTML = "countdown's over!");                    
+                clearInterval(cdtime);
+                return;
+            } else {
+                minutes--;
+                seconds = 59;
+            }
+        }
+        if(minutes > 0) {
+            var minutetxt = minutes + (minutes > 1 ? '' : 'minute');
+        } else {
+            var minutetxt = '';
+        }
+        var secondstxt;
+            if(seconds > 1)
+            {
+            secondstxt = ''; 
+            }
+            else
+            { 
+            secondstxt = '';
+            }
+
+
+        cdtimer.innerHTML = minutetxt + ':' + seconds;
+        seconds--;
+    }, 1000); }
+    
+    
+    
+</script>
+
+</html>
