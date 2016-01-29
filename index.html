@@ -46,7 +46,7 @@
             border-radius: 200px;
         }
     </style>
-    
+
 </head>
 <body>
 	
@@ -60,7 +60,7 @@
            <p1 class="output" id="break_time"></p1><p1> minutes</p1>
            <button class="btn btn-info btn-sm" onclick="breakTime('-');">-</button>
        </div>
-       
+
        <div class="well col-xs-6" id="set-well">
            <p1>Session Time:</p1>
            <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
@@ -69,7 +69,7 @@
 
        </div>
    </div>
-   
+
    <div id="timer">
     <button class="btn-info btn-circle-lg" id="cdtime">START</button>
 </div>
@@ -85,13 +85,13 @@
       startTimer(setT);
   });
 });
-  
+
   breakT = 5;
   break_time.innerHTML = breakT;
   setT = 25;
   set_time.innerHTML = setT;
 	 //cdtimer.innerHTML =setT+':00';
-    
+
     function breakTime(change){
       if(change==='-'){
          breakT = breakT-1;
@@ -123,25 +123,19 @@
      set_seconds = 00; 
      break_minutes = breakT;
      break_seconds = 00; 
-     
+
      cd_set_minutes = set_minutes;
     cd_set_seconds = -01//set_seconds; 
     cd_break_minutes = break_minutes;
     cd_break_seconds = -01//break_seconds; 
     
     cdtimer = setInterval(function(){ setTimer() },1000);
-    
+
     function setTimer(){
-     $(document).ready(function(){
-       $("btn-danger").click(function(){
-          alert("ALL DONE! Restart for more work or You're Finished")
-          clearInterval(cdtimer);
-          $("btn-danger").toggleClass("btn-info");
-      });
-   });
+
      if (cd_set_minutes===00 && cd_set_seconds===00){
-       clearInterval(cdtimer);
-       alert('Timer done! Time for a break!!')
+        //clearInterval(cdtimer);
+       //alert('Timer done! Time for a break!!')
        breakTimer();
    }
    else {
@@ -157,7 +151,7 @@
                    }
                }
            }
-           
+
            function breakTimer(){
              if (cd_break_minutes===00 && cd_break_seconds===00){
                clearInterval(cdtimer);
@@ -176,8 +170,8 @@
                    }
                }
            }
-           
-           
+
+
        }  
     /*
 		cdtimer.innerHTML =setT+':00';
