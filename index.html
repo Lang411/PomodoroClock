@@ -1,5 +1,5 @@
 <!DOCTYPE html>
- <meta charset="UTF-8"> 
+<meta charset="UTF-8"> 
 <html>
 <head>
 
@@ -37,99 +37,191 @@
 			border: none !important
 		}
 		
-		.btn-circle.btn-lg {
-  		width: 400px;
-  		height: 400px;
-  		padding: 10px 16px;
-  		font-size:80px;
-  		line-height: 1.33;
-  		border-radius: 200px;
-	}
-	</style>
-	
+		.btn-circle-lg {
+            width: 400px;
+            height: 400px;
+            padding: 10px 16px;
+            font-size:80px;
+            line-height: 1.33;
+            border-radius: 200px;
+        }
+    </style>
+    
 </head>
 <body>
 	
-<h1>Taking Care of Business</h1>
+    <h1>Taking Care of Business</h1>
 
-<div class="well" id="set-well">
-  <div class="row">
-    <div class="well col-xs-6" id="set-well">
-    	<p1 class="output">Break time:</p1>
-    	<button class="btn btn-info btn-sm" onclick="breakTime('+');">+</button>
-    	<p1 class="output" id="break_time"></p1><p1> minutes</p1>
-    	<button class="btn btn-info btn-sm" onclick="breakTime('-');">-</button>
-    </div>
-    
-    <div class="well col-xs-6" id="set-well">
-    	<p1>Session Time:</p1>
-    	 <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
-    	<p1 class="output" id="set_time"></p1><p1> minutes</p1>
-    	<button class="btn btn-info btn-sm" onclick="setTime('-');">-</button>
+    <div class="well" id="set-well">
+      <div class="row">
+        <div class="well col-xs-6" id="set-well">
+           <p1 class="output">Break time:</p1>
+           <button class="btn btn-info btn-sm" onclick="breakTime('+');">+</button>
+           <p1 class="output" id="break_time"></p1><p1> minutes</p1>
+           <button class="btn btn-info btn-sm" onclick="breakTime('-');">-</button>
+       </div>
+       
+       <div class="well col-xs-6" id="set-well">
+           <p1>Session Time:</p1>
+           <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
+           <p1 class="output" id="set_time"></p1><p1> minutes</p1>
+           <button class="btn btn-info btn-sm" onclick="setTime('-');">-</button>
 
-    </div>
-  </div>
-	
-	<div id="timer">
+       </div>
+   </div>
+   
+   <div id="timer">
+    <button class="btn-info btn-circle-lg" id="cdtime">START</button>
+</div>
 
-  		<button class="btn btn-info btn-circle btn-lg output" id="cdtimer" onclick="startTimer(setT);">START</button>
-
-		 <audio autoplay>
-  			<source src="horse.ogg" type="audio/ogg">
-  			<source src="horse.mp3" type="audio/mpeg">
-			</audio> 
-	</div>
-	
 </div>
 </body>
-		
+
 <script type="text/javascript">
-	 breakT = 5;
-	 break_time.innerHTML = breakT;
-	 setT = 25;
-	 set_time.innerHTML = setT;
+
+  $(document).ready(function(){
+   $("#cdtime").click(function(){
+      $("#cdtime").toggleClass("btn-danger");
+      startTimer(setT);
+  });
+});
+  
+  breakT = 5;
+  break_time.innerHTML = breakT;
+  setT = 25;
+  set_time.innerHTML = setT;
 	 //cdtimer.innerHTML =setT+':00';
-	
-	function breakTime(change){
-		if(change==='-'){
-			breakT = breakT-1;
-		}
-		else{
-			breakT = breakT+1;
-		}
-		break_time.innerHTML = breakT;
+    
+    function breakTime(change){
+      if(change==='-'){
+         breakT = breakT-1;
+     }
+     else{
+         breakT = breakT+1;
+     }
+     break_time.innerHTML = breakT;
+		//console.log(breakT)
+		return breakT
 	}
 	
 	function setTime(change) {
-				if(change==='-'){
-			setT = setT-1;
-		}
-		else{
-			setT = setT+1;
-		}
-		set_time.innerHTML = setT;
-		cdtimer.innerHTML = setT+':00';
+        if(change==='-'){
+         setT = setT-1;
+     }
+     else{
+         setT = setT+1;
+     }
+     set_time.innerHTML = setT;
+     cdtime.innerHTML = setT+':00';
 		//cdtimer = setT
-		console.log(setT)
+		//console.log(setT)
 		return setT
 	}
 
-function startTimer(setT) {
-	  minutes = setT;
-    var seconds = 00; 
-	cdtimer.innerHTML =setT+':00';
+    function startTimer(setT) {
+     set_minutes = setT;
+     set_seconds = 00; 
+     break_minutes = breakT;
+     break_seconds = 00; 
+     
+     cd_set_minutes = set_minutes;
+    cd_set_seconds = -01//set_seconds; 
+    cd_break_minutes = break_minutes;
+    cd_break_seconds = -01//break_seconds; 
+    
+    cdtimer = setInterval(function(){ setTimer() },1000);
+    
+    function setTimer(){
+     $(document).ready(function(){
+       $("btn-danger").click(function(){
+          alert("ALL DONE! Restart for more work or You're Finished")
+          clearInterval(cdtimer);
+          $("btn-danger").toggleClass("btn-info");
+      });
+   });
+     if (cd_set_minutes===00 && cd_set_seconds===00){
+       clearInterval(cdtimer);
+       alert('Timer done! Time for a break!!')
+       breakTimer();
+   }
+   else {
+       if (cd_set_seconds===-01){
+           cd_set_minutes = cd_set_minutes-1;
+           cd_set_seconds = 59;
+       }
+       else {  
+    					//console.log(cd_set_seconds)
+    					cd_set_seconds = (cd_set_seconds < 10) ? '0'+cd_set_seconds : cd_set_seconds;
+    					cdtime.innerHTML = cd_set_minutes + ':' + cd_set_seconds;
+    					cd_set_seconds = cd_set_seconds-1;
+                   }
+               }
+           }
+           
+           function breakTimer(){
+             if (cd_break_minutes===00 && cd_break_seconds===00){
+               clearInterval(cdtimer);
+               alert("ALL DONE! Restart for more work or You're Finished")
+           }
+           else {
+               if (cd_break_seconds===-01){
+                   cd_break_minutes = cd_break_minutes-1;
+                   cd_break_seconds = 59;
+               }
+               else {  
+    					//console.log(cd_set_seconds)
+    					cd_break_seconds = (cd_break_seconds < 10) ? '0'+cd_break_seconds : cd_break_seconds;
+    					cdtime.innerHTML = cd_break_minutes + ':' + cd_break_seconds;
+    					cd_break_seconds = cd_break_seconds-1;
+                   }
+               }
+           }
+           
+           
+       }  
+    /*
+		cdtimer.innerHTML =setT+':00';
     cdtime = setInterval(function() {
         var timer = "stuff";
-        if(seconds == 0) {
-            if(minutes == 0) {
+        if(set_seconds == 0) {
+            if(set_minutes == 0) {
+            		//-----Running Break timer
+            		cdtime = setInterval(function() {
+            		if(break_seconds == 0) {
+            			if(break_minutes == 0) {
+            				        if(minutes > 0) {
+            						var minutetxt = minutes + (minutes > 1 ? '' : 'minute');
+        								} else {
+            									var minutetxt = '';
+        								}
+        								var secondstxt;
+            						if(seconds > 1)
+            							{
+            						secondstxt = ''; 
+            							}
+            						else
+            						{ 
+            							secondstxt = '';
+            						}
+											}
+										}
+        							cdtimer.innerHTML = minutetxt + ':' + seconds;
+        							seconds--;
+    								}, 1000); 
                 alert(timer.innerHTML = "countdown's over!");                    
                 clearInterval(cdtime);
                 return;
-            } else {
+         }
+       }
+         //------Exiting Break timer inner section
+             else {
+            	seconds = set_seconds;
+            	minutes = set_minutes;
                 minutes--;
                 seconds = 59;
             }
-        }
+				seconds = set_seconds;
+        minutes = set_minutes;
         if(minutes > 0) {
             var minutetxt = minutes + (minutes > 1 ? '' : 'minute');
         } else {
@@ -148,9 +240,9 @@ function startTimer(setT) {
 
         cdtimer.innerHTML = minutetxt + ':' + seconds;
         seconds--;
-    }, 1000); }
-    
-    
+    }, 1000); 
+    }
+    */
     
 </script>
 
