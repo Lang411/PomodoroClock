@@ -73,7 +73,7 @@
  <div id="timer">
     <button class="btn-info btn-circle-lg" id="cdtime">START</button>
 </div>
-<p2 cx="50" cy="50" id="instructions"></p2>
+<p2 id="instructions"></p2>
 
 </div>
 </body>
@@ -120,7 +120,7 @@
 	 //cdtimer.innerHTML =setT+':00';
 
     function breakTime(change){
-        clearInterval(cdtimer);
+        //clearInterval(cdtimer);
       if(change==='-'){
        breakT = breakT-1;
    }
@@ -133,7 +133,7 @@
 	}
 	
 	function setTime(change) {
-        clearInterval(cdtimer);
+        //clearInterval(cdtimer);
         if(change==='-'){
            setT = setT-1;
        }
@@ -148,15 +148,15 @@
 	}
 
     function startTimer(setT) {
-       set_minutes = setT;
-       set_seconds = 00; 
-       break_minutes = breakT;
-       break_seconds = 00; 
+        set_minutes = setT;
+        set_seconds = 00; 
+        break_minutes = breakT;
+        break_seconds = 00; 
 
-       cd_set_minutes = set_minutes;
-    cd_set_seconds = -01//set_seconds; 
-    cd_break_minutes = break_minutes;
-    cd_break_seconds = -01//break_seconds; 
+        cd_set_minutes = set_minutes;
+        cd_set_seconds = -01//set_seconds; 
+        cd_break_minutes = break_minutes;
+        cd_break_seconds = -01//break_seconds; 
     
     cdtimer = setInterval(function(){ setTimer() },1000);
 
