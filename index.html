@@ -55,76 +55,105 @@
     <div class="well" id="set-well">
       <div class="row">
         <div class="well col-xs-6" id="set-well">
-           <p1 class="output">Break time:</p1>
-           <button class="btn btn-info btn-sm" onclick="breakTime('+');">+</button>
-           <p1 class="output" id="break_time"></p1><p1> minutes</p1>
-           <button class="btn btn-info btn-sm" onclick="breakTime('-');">-</button>
-       </div>
+         <p1 class="output">Break time:</p1>
+         <button class="btn btn-info btn-sm" onclick="breakTime('+');">+</button>
+         <p1 class="output" id="break_time"></p1><p1> minutes</p1>
+         <button class="btn btn-info btn-sm" onclick="breakTime('-');">-</button>
+     </div>
 
-       <div class="well col-xs-6" id="set-well">
-           <p1>Session Time:</p1>
-           <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
-           <p1 class="output" id="set_time"></p1><p1> minutes</p1>
-           <button class="btn btn-info btn-sm" onclick="setTime('-');">-</button>
+     <div class="well col-xs-6" id="set-well">
+         <p1>Session Time:</p1>
+         <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
+         <p1 class="output" id="set_time"></p1><p1> minutes</p1>
+         <button class="btn btn-info btn-sm" onclick="setTime('-');">-</button>
 
-       </div>
-   </div>
+     </div>
+ </div>
 
-   <div id="timer">
+ <div id="timer">
     <button class="btn-info btn-circle-lg" id="cdtime">START</button>
 </div>
+<p2 cx="50" cy="50" id="instructions"></p2>
 
 </div>
 </body>
 
 <script type="text/javascript">
 
-  $(document).ready(function(){
-   $("#cdtime").click(function(){
-      $("#cdtime").toggleClass("btn-danger");
-      startTimer(setT);
-  });
-});
+     btn_switch = 0;
+     instructions.innerHTML = "Click to Start";
+    $(document).ready(function(){
+     $("#cdtime").click(function(){
+        
+        console.log(btn_switch)
+        switch(btn_switch) {
+        case 0:
+            console.log("Button clicked to start")
+            instructions.innerHTML = "Click to Stop";
+            $("#cdtime").toggleClass("btn-primary btn-danger");
+            startTimer(setT);
+            btn_switch = btn_switch + 1;
+            break
+        
+        case 1:
+            console.log("Button clicked again to stop")
+            instructions.innerHTML = "Click to Start";
+            $("#cdtime").toggleClass("btn-danger btn-primary");
+            clearInterval(cdtimer);  
+            btn_switch = btn_switch - 1;
+            break 
 
-  breakT = 5;
-  break_time.innerHTML = breakT;
-  setT = 25;
-  set_time.innerHTML = setT;
+        case 2:
+            console.log("Button changed for break")
+            $("#cdtime").toggleClass("btn-danger btn-success");
+            //clearInterval(cdtimer); 
+            break 
+        } 
+
+        });
+    });
+
+    breakT = 5;
+    break_time.innerHTML = breakT;
+    setT = 25;
+    set_time.innerHTML = setT;
 	 //cdtimer.innerHTML =setT+':00';
 
     function breakTime(change){
+        clearInterval(cdtimer);
       if(change==='-'){
-         breakT = breakT-1;
-     }
-     else{
-         breakT = breakT+1;
-     }
-     break_time.innerHTML = breakT;
+       breakT = breakT-1;
+   }
+   else{
+       breakT = breakT+1;
+   }
+   break_time.innerHTML = breakT;
 		//console.log(breakT)
 		return breakT
 	}
 	
 	function setTime(change) {
+        clearInterval(cdtimer);
         if(change==='-'){
-         setT = setT-1;
-     }
-     else{
-         setT = setT+1;
-     }
-     set_time.innerHTML = setT;
-     cdtime.innerHTML = setT+':00';
+           setT = setT-1;
+       }
+       else{
+           setT = setT+1;
+       }
+       set_time.innerHTML = setT;
+       cdtime.innerHTML = setT+':00';
 		//cdtimer = setT
 		//console.log(setT)
 		return setT
 	}
 
     function startTimer(setT) {
-     set_minutes = setT;
-     set_seconds = 00; 
-     break_minutes = breakT;
-     break_seconds = 00; 
+       set_minutes = setT;
+       set_seconds = 00; 
+       break_minutes = breakT;
+       break_seconds = 00; 
 
-     cd_set_minutes = set_minutes;
+       cd_set_minutes = set_minutes;
     cd_set_seconds = -01//set_seconds; 
     cd_break_minutes = break_minutes;
     cd_break_seconds = -01//break_seconds; 
@@ -132,112 +161,48 @@
     cdtimer = setInterval(function(){ setTimer() },1000);
 
     function setTimer(){
-
-     if (cd_set_minutes===00 && cd_set_seconds===00){
+       if (cd_set_minutes===00 && cd_set_seconds===00){
         //clearInterval(cdtimer);
        //alert('Timer done! Time for a break!!')
+       $("#cdtime").addClass("btn-success");
        breakTimer();
-   }
-   else {
-       if (cd_set_seconds===-01){
-           cd_set_minutes = cd_set_minutes-1;
-           cd_set_seconds = 59;
-       }
-       else {  
+        }
+        else {
+        if (cd_set_seconds===-01){
+         cd_set_minutes = cd_set_minutes-1;
+         cd_set_seconds = 59;
+        }
+        else {  
     					//console.log(cd_set_seconds)
     					cd_set_seconds = (cd_set_seconds < 10) ? '0'+cd_set_seconds : cd_set_seconds;
     					cdtime.innerHTML = cd_set_minutes + ':' + cd_set_seconds;
     					cd_set_seconds = cd_set_seconds-1;
-                   }
-               }
-           }
+                 }
+             }
+         }
 
-           function breakTimer(){
-             if (cd_break_minutes===00 && cd_break_seconds===00){
-               clearInterval(cdtimer);
-               alert("ALL DONE! Restart for more work or You're Finished")
-           }
-           else {
-               if (cd_break_seconds===-01){
-                   cd_break_minutes = cd_break_minutes-1;
-                   cd_break_seconds = 59;
-               }
-               else {  
+         function breakTimer(){
+           if (cd_break_minutes===00 && cd_break_seconds===00){
+             clearInterval(cdtimer);
+             alert("ALL DONE! Restart for more work or You're Finished")
+         }
+         else {
+             if (cd_break_seconds===-01){
+                 cd_break_minutes = cd_break_minutes-1;
+                 cd_break_seconds = 59;
+             }
+             else {  
     					//console.log(cd_set_seconds)
     					cd_break_seconds = (cd_break_seconds < 10) ? '0'+cd_break_seconds : cd_break_seconds;
     					cdtime.innerHTML = cd_break_minutes + ':' + cd_break_seconds;
     					cd_break_seconds = cd_break_seconds-1;
-                   }
-               }
-           }
-
-
-       }  
-    /*
-		cdtimer.innerHTML =setT+':00';
-    cdtime = setInterval(function() {
-        var timer = "stuff";
-        if(set_seconds == 0) {
-            if(set_minutes == 0) {
-            		//-----Running Break timer
-            		cdtime = setInterval(function() {
-            		if(break_seconds == 0) {
-            			if(break_minutes == 0) {
-            				        if(minutes > 0) {
-            						var minutetxt = minutes + (minutes > 1 ? '' : 'minute');
-        								} else {
-            									var minutetxt = '';
-        								}
-        								var secondstxt;
-            						if(seconds > 1)
-            							{
-            						secondstxt = ''; 
-            							}
-            						else
-            						{ 
-            							secondstxt = '';
-            						}
-											}
-										}
-        							cdtimer.innerHTML = minutetxt + ':' + seconds;
-        							seconds--;
-    								}, 1000); 
-                alert(timer.innerHTML = "countdown's over!");                    
-                clearInterval(cdtime);
-                return;
+                 }
+             }
          }
-       }
-         //------Exiting Break timer inner section
-             else {
-            	seconds = set_seconds;
-            	minutes = set_minutes;
-                minutes--;
-                seconds = 59;
-            }
-				seconds = set_seconds;
-        minutes = set_minutes;
-        if(minutes > 0) {
-            var minutetxt = minutes + (minutes > 1 ? '' : 'minute');
-        } else {
-            var minutetxt = '';
-        }
-        var secondstxt;
-            if(seconds > 1)
-            {
-            secondstxt = ''; 
-            }
-            else
-            { 
-            secondstxt = '';
-            }
 
 
-        cdtimer.innerHTML = minutetxt + ':' + seconds;
-        seconds--;
-    }, 1000); 
-    }
-    */
-    
-</script>
+     }  
 
-</html>
+ </script>
+
+ </html>
