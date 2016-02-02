@@ -40,9 +40,9 @@
 		.btn-circle-lg {
             width: 400px;
             height: 400px;
-            padding: 10px 16px;
-            font-size:80px;
-            line-height: 1.33;
+            padding: 2px;
+            font-size: 55px;
+            line-height: 1.0;
             border-radius: 200px;
         }
     </style>
@@ -62,7 +62,7 @@
      </div>
 
      <div class="well col-xs-6" id="set-well">
-         <p1>Session Time:</p1>
+         <p1>Work Time:</p1>
          <button class="btn btn-info btn-sm" onclick="setTime('+');">+</button>
          <p1 class="output" id="set_time"></p1><p1> minutes</p1>
          <button class="btn btn-info btn-sm" onclick="setTime('-');">-</button>
@@ -71,7 +71,7 @@
  </div>
 
  <div id="timer">
-    <button class="btn-info btn-circle-lg" id="cdtime">START</button>
+    <button class="btn-primary btn-circle-lg" id="cdtime">START</button>
 </div>
 <p2 id="instructions"></p2>
 
@@ -79,13 +79,10 @@
 </body>
 
 <script type="text/javascript">
-
      btn_switch = 0;
      instructions.innerHTML = "Click to Start";
     $(document).ready(function(){
      $("#cdtime").click(function(){
-        
-        console.log(btn_switch)
         switch(btn_switch) {
         case 0:
             console.log("Button clicked to start")
@@ -102,27 +99,25 @@
             clearInterval(cdtimer);  
             btn_switch = btn_switch - 1;
             break 
-
         case 2:
             console.log("Button changed for break")
             $("#cdtime").toggleClass("btn-danger btn-success");
             //clearInterval(cdtimer); 
             break 
         } 
-
         });
     });
-
     breakT = 5;
     break_time.innerHTML = breakT;
     setT = 25;
     set_time.innerHTML = setT;
 	 //cdtimer.innerHTML =setT+':00';
-
     function breakTime(change){
         //clearInterval(cdtimer);
       if(change==='-'){
+      	if (breakT>1){
        breakT = breakT-1;
+     }
    }
    else{
        breakT = breakT+1;
@@ -135,7 +130,9 @@
 	function setTime(change) {
         //clearInterval(cdtimer);
         if(change==='-'){
+        	if (setT>1){
            setT = setT-1;
+         }
        }
        else{
            setT = setT+1;
@@ -146,26 +143,27 @@
 		//console.log(setT)
 		return setT
 	}
-
     function startTimer(setT) {
         set_minutes = setT;
         set_seconds = 00; 
         break_minutes = breakT;
         break_seconds = 00; 
-
         cd_set_minutes = set_minutes;
         cd_set_seconds = -01//set_seconds; 
         cd_break_minutes = break_minutes;
         cd_break_seconds = -01//break_seconds; 
+        audioPlays = 1;
     
     cdtimer = setInterval(function(){ setTimer() },1000);
-
+    
     function setTimer(){
        if (cd_set_minutes===00 && cd_set_seconds===00){
-        //clearInterval(cdtimer);
+
+				breakTimer();
+      //clearInterval(cdtimer);
        //alert('Timer done! Time for a break!!')
-       $("#cdtime").addClass("btn-success");
-       breakTimer();
+       //$("#cdtime").addClass("btn-success");
+       
         }
         else {
         if (cd_set_seconds===-01){
@@ -175,17 +173,29 @@
         else {  
     					//console.log(cd_set_seconds)
     					cd_set_seconds = (cd_set_seconds < 10) ? '0'+cd_set_seconds : cd_set_seconds;
-    					cdtime.innerHTML = cd_set_minutes + ':' + cd_set_seconds;
+    					cdtime.innerHTML = 'Work Time:\n' + cd_set_minutes + ':' + cd_set_seconds;
     					cd_set_seconds = cd_set_seconds-1;
                  }
              }
          }
-
-         function breakTimer(){
-           if (cd_break_minutes===00 && cd_break_seconds===00){
+     }  
+     
+     function breakTimer(){ 	
+       		if (audioPlays===1){
+						sound();
+						$("#cdtime").toggleClass("btn-danger btn-success");
+						audioPlays = 2;
+					}
+          
+          if (cd_break_minutes===00 && cd_break_seconds===00){
+             cdtime.innerHTML = 'Restart \n Or \n Change Time';
+             $("#cdtime").toggleClass('btn-success btn-primary');
+             sound();
              clearInterval(cdtimer);
+             instructions.innerHTML = "Click to Start";
              alert("ALL DONE! Restart for more work or You're Finished")
-         }
+         	}
+         	
          else {
              if (cd_break_seconds===-01){
                  cd_break_minutes = cd_break_minutes-1;
@@ -194,15 +204,20 @@
              else {  
     					//console.log(cd_set_seconds)
     					cd_break_seconds = (cd_break_seconds < 10) ? '0'+cd_break_seconds : cd_break_seconds;
-    					cdtime.innerHTML = cd_break_minutes + ':' + cd_break_seconds;
+    					cdtime.innerHTML = 'Take a Break!:\n' + cd_break_minutes + ':' + cd_break_seconds;
     					cd_break_seconds = cd_break_seconds-1;
                  }
              }
          }
-
-
-     }  
-
+         
+       function sound(){
+         	    var sound = 'http://www.oringz.com/oringz-uploads/sounds-917-communication-channel.mp3';
+         	    //var sound = 'https://www.freesound.org/people/Robinhood76/sounds/334914/#';
+      				var audio = new Audio(sound);
+							audio.play();
+					}
  </script>
+
+ 
 
  </html>
